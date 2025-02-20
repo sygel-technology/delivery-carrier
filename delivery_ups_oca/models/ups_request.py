@@ -396,17 +396,21 @@ class UpsRequest(object):
             else:
                 for warning in shipment.get("warnings"):
                     states_list.append(
-                        _("{} - Warning: {}").format(
-                            datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                            warning.get("message"),
-                        )
+                        _("%(datetime)s - Warning: %(message)s")
+                        % {
+                            "datetime": datetime.datetime.now().strftime(
+                                "%Y-%m-%d %H:%M:%S"
+                            ),
+                            "message": warning.get("message"),
+                        }
                     )
 
         except Exception:
             states_list.append(
-                _("{} - Error retrieving the tracking information.").format(
-                    datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                )
+                _("%(datetime)s - Error retrieving the tracking information.")
+                % {
+                    "datetime": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                }
             )
         return {
             "delivery_state": delivery_state,
